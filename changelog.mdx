@@ -1,0 +1,137 @@
+---
+title: Changelog
+description: Version history with 2-3 recent updates and changes.
+---
+
+## Recent Updates
+
+Welcome to the GTM Fabric changelog. Here you find detailed release notes for all updates, including new features, improvements, bug fixes, and breaking changes. Updates are listed in reverse chronological order, with the most recent first.
+
+<Callout kind="info">
+  Subscribe to our RSS feed or join the community Discord to get notified about new releases automatically.
+</Callout>
+
+<Update label="2024-12-15" description="v1.3.0" tags={["feature", "improvement"]}>
+
+## New Features
+
+- Introduced AI-powered partner matching in the Ecosystem Intelligence dashboard, using signal data to recommend high-fit ecosystem partners.
+- Added orchestration workflows for automated revenue activation, enabling one-click partner onboarding sequences.
+
+## Improvements
+
+- Enhanced signal intelligence processing speed by `>40%` for real-time partner revenue predictions.
+- Updated UI with brand color `#e04dea` accents for better visibility in partner dashboards.
+
+## Bug Fixes
+
+- Fixed intermittent failures in webhook deliveries for partner event notifications.
+
+</Update>
+
+<Update label="2024-11-20" description="v1.2.0" tags={["bugfix", "improvement"]}>
+
+## Improvements
+
+- Optimized query performance for Joint ICP analysis, reducing load times for large partner datasets.
+- Added customizable filters to the revenue engine reports for better ecosystem insights.
+
+## Bug Fixes
+
+- Resolved authentication issues with OAuth flows in partner activation services.
+- Corrected export errors when downloading partner signal data as CSV.
+
+</Update>
+
+<Update label="2024-10-10" description="v1.1.0" tags={["feature", "breaking"]}>
+
+## New Features
+
+- Launched initial Ecosystem Intelligence module with technographic signal aggregation from multiple sources.
+- Integrated basic AI orchestration for partner revenue forecasting.
+
+## Breaking Changes
+
+- Updated API endpoints from `/v1/partners` to `/v2/ecosystems` – update your integrations accordingly.
+
+## Bug Fixes
+
+- Patched security vulnerability in partner data access controls.
+
+</Update>
+
+## Upgrading to the Latest Version
+
+Follow these steps to upgrade GTM Fabric smoothly.
+
+<Steps>
+  <Step title="Backup Your Data" icon="database">
+
+    Create a full backup of your configuration and partner data.
+
+    ```
+    docker-compose down
+    cp -r ./data ./backup-$(date +%Y%m%d)
+    ```
+
+  </Step>
+  <Step title="Update Dependencies" icon="package">
+
+    <CodeGroup tabs="npm,yarn">
+      ```bash
+      npm install gtm-fabric@latest
+      ```
+      ```bash
+      yarn add gtm-fabric@latest
+      ```
+    </CodeGroup>
+
+  </Step>
+  <Step title="Run Migrations" icon="settings">
+
+    ```
+    npm run migrate
+    ```
+
+    Review any breaking changes listed above.
+
+  </Step>
+  <Step title="Restart Services" icon="zap">
+
+    ```
+    docker-compose up -d
+    ```
+
+  </Step>
+</Steps>
+
+<Callout kind="tip">
+  Test in a staging environment first. Check the [migration guide](/introduction#upgrading) for detailed instructions on `v1.1.0` breaking changes.
+</Callout>
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Get started with GTM Fabric in under 5 minutes.
+  </Card>
+  <Card title="Ecosystem Intelligence" icon="zap" href="/authentication">
+    Dive into partner signal analysis and revenue orchestration.
+  </Card>
+  <Card title="API Reference" icon="code" href="/quickstart">
+    Integrate programmatically with our endpoints.
+  </Card>
+  <Card title="Community" icon="users" href="https://discord.gg/example" target="_blank">
+    Join discussions and share feedback.
+  </Card>
+</Columns>
+
+<Expandable title="Upcoming in v1.4.0" default-open="false">
+
+- Advanced AI models for predictive partner revenue scoring.
+- Native integrations with Salesforce and HubSpot for seamless data sync.
+- Expanded expert network features for Joint ICP collaboration.
+
+Stay tuned for the beta release next month.
+
+</Expandable>

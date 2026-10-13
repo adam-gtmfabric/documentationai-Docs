@@ -1,0 +1,176 @@
+---
+title: Quickstart
+description: Account setup and first steps to get users started with GTM Fabric quickly.
+---
+
+## Prerequisites
+
+Before starting, ensure you have:
+
+<Callout kind="info">
+
+- A valid email address for account creation
+- Access to your company's partner ecosystem data (CSV exports or API access)
+- Google Chrome or Firefox browser (recommended for best experience)
+- Optional: Your `API_KEY` from previous integrations
+
+</Callout>
+
+## Create Your Account
+
+Sign up takes under 2 minutes. Follow these steps to get started.
+
+<Steps>
+  <Step title="Visit Dashboard" icon="monitor">
+    Navigate to `https://dashboard.example.com` and click **Sign Up**.
+  </Step>
+  <Step title="Enter Details" icon="user">
+    Provide your email, company name, and create a strong password.
+  </Step>
+  <Step title="Verify Email" icon="mail">
+    Check your inbox and click the verification link.
+  </Step>
+  <Step title="Complete Setup" icon="check-circle">
+    Accept terms and set your time zone.
+  </Step>
+</Steps>
+
+## Complete Onboarding Wizard
+
+The wizard guides you through initial configuration.
+
+<Steps>
+  <Step title="Connect Data Sources" icon="database">
+    Upload partner lists or connect via API. Supported formats include CSV and JSON.
+  </Step>
+  <Step title="Define ICP" icon="target">
+    Enter your Ideal Customer Profile criteria like industry, revenue range, and tech stack.
+  </Step>
+  <Step title="Review Summary" icon="eye">
+    Preview your setup and click **Finish**.
+  </Step>
+</Steps>
+
+## First Login and Dashboard Tour
+
+Log in at `https://dashboard.example.com/login`. Key sections include:
+
+- **Ecosystem Intelligence**: View partner signals and insights.
+- **Insights Dashboard**: Track revenue predictions.
+- **Orchestration**: Manage workflows.
+
+<Tabs>
+  <Tab title="Key Metrics" icon="bar-chart">
+    Monitor partner engagement scores and predicted revenue.
+  </Tab>
+  <Tab title="Recent Insights" icon="zap">
+    See AI-generated recommendations for ecosystem plays.
+  </Tab>
+  <Tab title="Workflows" icon="settings">
+    Set up automated partner outreach.
+  </Tab>
+</Tabs>
+
+## Generate Initial ICP Insights
+
+Use the API to fetch your first insights programmatically.
+
+<CodeGroup tabs="cURL,JavaScript,Python">
+  ```bash
+  curl -X POST https://api.example.com/v1/insights/generate \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "icp": {
+        "industry": "SaaS",
+        "revenue_min": 10000000,
+        "tech_stack": ["Salesforce", "HubSpot"]
+      }
+    }'
+  ```
+  ```javascript
+  const response = await fetch('https://api.example.com/v1/insights/generate', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer YOUR_API_KEY',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      icp: {
+        industry: 'SaaS',
+        revenue_min: 10000000,
+        tech_stack: ['Salesforce', 'HubSpot']
+      }
+    })
+  });
+  const insights = await response.json();
+  console.log(insights);
+  ```
+  ```python
+  import requests
+
+  response = requests.post(
+      'https://api.example.com/v1/insights/generate',
+      headers={
+          'Authorization': 'Bearer YOUR_API_KEY',
+          'Content-Type': 'application/json',
+      },
+      json={
+          'icp': {
+              'industry': 'SaaS',
+              'revenue_min': 10000000,
+              'tech_stack': ['Salesforce', 'HubSpot']
+          }
+      }
+  )
+  insights = response.json()
+  print(insights)
+  ```
+</CodeGroup>
+
+<Response tabs="200">
+```json
+{
+  "success": true,
+  "insights": [
+    {
+      "partner": "Acme Corp",
+      "match_score": 0.92,
+      "predicted_revenue": 250000,
+      "recommendation": "Prioritize joint ICP alignment"
+    }
+  ]
+}
+```
+</Response>
+
+<Callout kind="tip">
+
+Replace `YOUR_API_KEY` with your actual key from the dashboard settings. Store it securely.
+
+</Callout>
+
+## Next Steps
+
+Explore these resources to deepen your usage.
+
+<Columns cols={2}>
+  <Card title="Ecosystem Intelligence" icon="zap" href="/ecosystem-intelligence">
+    Dive into signal intelligence and partner matching.
+  </Card>
+  <Card title="Workflow Orchestration" icon="settings" href="/orchestration">
+    Automate partner revenue workflows.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference">
+    Full API documentation and SDKs.
+  </Card>
+  <Card title="Best Practices" icon="book-open" href="/guides">
+    Optimize your GTM strategy with expert tips.
+  </Card>
+</Columns>
+
+<Expandable title="Troubleshooting Common Issues">
+  - **Login fails**: Clear browser cache and try incognito mode.
+  - **API errors**: Verify `YOUR_API_KEY` and check rate limits (`<1000` requests/hour).
+  - **Data upload issues**: Ensure CSV uses UTF-8 encoding.
+</Expandable>

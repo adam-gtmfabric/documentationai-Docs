@@ -1,0 +1,186 @@
+---
+title: Integrations
+description: Third-party connections, webhooks, and ecosystem partner integrations.
+---
+
+## Overview
+
+GTM Fabric supports seamless integrations with popular CRMs, marketing tools, and communication platforms. You can connect your ecosystem data sources to unlock actionable insights and automate partner workflows. This guide covers available integrations, CRM setup, webhook configuration, and partner workflow orchestration.
+
+<Callout kind="info">
+  All integrations use OAuth 2.0 or API keys for secure connections. Review your data privacy settings before enabling new integrations.
+</Callout>
+
+## Available Integrations
+
+Connect GTM Fabric to your favorite tools for enriched ecosystem intelligence.
+
+<Columns cols={3}>
+  <Card title="Salesforce" icon="database" href="/docs/integrations/salesforce">
+    Sync partner accounts, opportunities, and revenue data in real-time.
+  </Card>
+  <Card title="HubSpot" icon="users" href="/docs/integrations/hubspot">
+    Import contacts and deals to analyze partner engagement.
+  </Card>
+  <Card title="Slack" icon="message-circle" href="/docs/integrations/slack">
+    Receive notifications for partner milestones and alerts.
+  </Card>
+  <Card title="Google Workspace" icon="mail" href="/docs/integrations/google">
+    Automate partner onboarding with shared drives and calendars.
+  </Card>
+  <Card title="Zapier" icon="zap" href="/docs/integrations/zapier">
+    Build no-code automations across 5000+ apps.
+  </Card>
+  <Card title="Marketo" icon="trending-up" href="/docs/integrations/marketo">
+    Track partner influence on marketing campaigns.
+  </Card>
+</Columns>
+
+## Setting Up CRM Connections
+
+Follow these steps to connect your CRM. Specific instructions vary by provider.
+
+<Steps>
+  <Step title="Navigate to Integrations" icon="settings">
+    Go to your GTM Fabric dashboard and select `Integrations` from the sidebar.
+  </Step>
+  <Step title="Select Provider" icon="database">
+    Choose your CRM from the list and click `Connect`.
+  </Step>
+  <Step title="Authorize Access" icon="shield">
+    Complete the OAuth flow and grant required permissions.
+  </Step>
+  <Step title="Configure Fields" icon="sliders">
+    Map custom fields for partner data sync.
+  </Step>
+  <Step title="Test Connection" icon="check-circle">
+    Run a test sync to verify data flow.
+  </Step>
+</Steps>
+
+### Provider-Specific Setup
+
+<Tabs>
+  <Tab title="Salesforce" icon="database">
+    Enter your instance URL and generate an API key.
+
+    <CodeGroup tabs="Connected App,OAuth Flow">
+    ````javascript
+    // Create Connected App in Salesforce Setup
+    const callbackUrl = 'https://dashboard.gtmfabric.com/oauth/callback';
+    // Redirect to: https://login.salesforce.com/services/oauth2/authorize?...
+    ````
+
+    ````bash
+    # CLI example for token exchange
+    curl -X POST https://login.salesforce.com/services/oauth2/token \
+      -d "grant_type=authorization_code" \
+      -d "client_id=YOUR_CLIENT_ID" \
+      -d "client_secret=YOUR_CLIENT_SECRET" \
+      -d "redirect_uri=https://dashboard.gtmfabric.com/oauth/callback" \
+      -d "code=AUTH_CODE"
+    ````
+    </CodeGroup>
+  </Tab>
+  <Tab title="HubSpot" icon="users">
+    Use your HubSpot API key or OAuth app.
+
+    ````javascript
+    const hubspotClient = require('@hubspot/api-client');
+    const hubspot = new hubspotClient.Client({ accessToken: 'YOUR_ACCESS_TOKEN' });
+    const contacts = await hubspot.crm.contacts.basicApi.getPage(10);
+    ````
+  </Tab>
+</Tabs>
+
+## Webhook Configuration
+
+Set up webhooks to receive real-time events from GTM Fabric, such as partner revenue updates.
+
+<ParamField path="webhook_url" param-type="string" required="true">
+  Your secure endpoint to receive payloads, e.g., `https://your-webhook-url.com/webhook`.
+</ParamField>
+
+<ParamField header="Authorization" param-type="string" required="false">
+  Bearer token for authentication, e.g., `Bearer YOUR_TOKEN`.
+</ParamField>
+
+### Example Payloads
+
+<Response tabs="Partner Created,Revenue Updated">
+```json
+{
+  "event": "partner.created",
+  "data": {
+    "id": "prt_123456",
+    "name": "Acme Partners",
+    "ecosystem_score": 85
+  },
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+
+```json
+{
+  "event": "revenue.updated",
+  "data": {
+    "partner_id": "prt_123456",
+    "amount": 15000,
+    "currency": "USD"
+  },
+  "timestamp": "2024-01-15T14:20:00Z"
+}
+```
+</Response>
+
+<CodeGroup tabs="Node.js,Python">
+````javascript
+// Node.js webhook handler
+app.post('/webhook', (req, res) => {
+  const event = req.body.event;
+  if (event === 'partner.created') {
+    console.log('New partner:', req.body.data);
+  }
+  res.status(200).send('OK');
+});
+````
+
+````python
+# Python webhook handler with Flask
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    event = request.json['event']
+    if event == 'partner.created':
+        print('New partner:', request.json['data'])
+    return 'OK', 200
+````
+</CodeGroup>
+
+## Ecosystem Partner Workflows
+
+Visualize and manage your partner orchestration pipelines.
+
+<Board title="Partner Onboarding Workflow">
+  <BoardColumn title="Prospect" color="0" icon="users">
+    <BoardCard title="Identify ICP Fit" description="Score leads with Ecosystem Intelligence" icon="zap" />
+  </BoardColumn>
+  <BoardColumn title="Engage" color="1" icon="message-circle">
+    <BoardCard title="Send Joint ICP" description="Share personalized playbooks" dueDate="2024-12-20" author="Sales Team" />
+    <BoardCard title="Schedule Demo" icon="calendar" />
+  </BoardColumn>
+  <BoardColumn title="Onboard" color="2" icon="check-circle">
+    <BoardCard title="Activate Services" description="Enable co-sell orchestration" createdAt="2024-12-10" />
+  </BoardColumn>
+</Board>
+
+<Expandable title="Advanced Workflow Customization">
+  Use custom webhooks and Zapier to extend workflows beyond native integrations. For example, trigger Slack notifications on revenue milestones.
+</Expandable>
+
+<Callout kind="tip">
+  Monitor integration health in the dashboard. Reconnect if sync errors occur.
+</Callout>
